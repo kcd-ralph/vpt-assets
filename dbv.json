@@ -130,6 +130,18 @@
       "Description": "The CA SSL certificate chain that has been signed using a cryptographically weak hashing algorithm (SHA1). These signature algorithms are known to be vulnerable to collision attacks.",
       "Risks": "An attacker can exploit this to generate another certificate with the same digital signature, allowing an attacker to masquerade as the affected service.",
       "Recommendations": "Contact the Certificate Authority to have the certificate reissued with strong hashing algorithm."
+    },
+    {
+  "Ref": "V - 1",
+  "IdentifiedIssue": "Exposition publique de l'ensemble des routes de l'API REST",
+  "Impact": "CIA",
+  "Criticality": "Medium",
+  "Exploitability": "Technique",
+  "Perimetre": ["Frontend", "WordPress REST API"],
+  "Description": "Le site WordPress audité permet l'accès non authentifié à l’endpoint /wp-json/, exposant l'ensemble des routes REST disponibles. Cela inclut les endpoints générés par les plugins installés (ex : Yoast, WPForms, CookieYes), donnant une visibilité complète sur les fonctionnalités internes du site. Cette configuration facilite la phase de reconnaissance pour un attaquant, lui permettant d’identifier les structures de données, les routes exploitables, et potentiellement des fonctionnalités sensibles.",
+  "Risks": "Un attaquant peut exploiter cette visibilité pour cartographier le site, identifier les plugins installés (et leurs versions), cibler des routes vulnérables, ou accéder à des données exposées via des endpoints mal configurés. Cela peut conduire à des fuites d’information, à la compromission de comptes via l’abus d’endpoints de login ou de soumission de formulaire, ou encore à des attaques ciblées sur des plugins connus comme vulnérables.",
+  "Recommendations": "Limiter l’accès à l’API REST uniquement aux utilisateurs authentifiés, sauf pour les fonctionnalités strictement nécessaires. Cela peut se faire à l’aide de plugins comme 'Disable REST API' ou en ajoutant des filtres personnalisés dans le thème. Il est également recommandé de désactiver les routes inutilisées, d’effectuer des revues régulières de sécurité sur les plugins actifs, et de surveiller l’utilisation des APIs via un WAF ou des outils de journalisation."
     }
+
   ]
   
