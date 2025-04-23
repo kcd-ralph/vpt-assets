@@ -5,7 +5,7 @@
            xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
            xsi:type="TaskPaneApp">
   <Id>1115c7ce-fae5-4414-9918-74d306fd639d</Id>
-  <Version>1.0.2.0</Version>
+  <Version>1.0.2.1</Version>
   <ProviderName>Ralph Nader</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="VPT"/>
