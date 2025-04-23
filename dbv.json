@@ -218,6 +218,18 @@
   "Description": "L’audit a révélé l’utilisation de versions obsolètes de certaines technologies côté serveur ou client (ex : WordPress, PHP, jQuery, Apache, etc.). Ces versions ne bénéficient plus de mises à jour de sécurité et peuvent contenir des vulnérabilités connues publiquement.",
   "Risks": "Un attaquant peut exploiter des failles connues affectant ces versions (ex : exécution de code, élévation de privilèges, injection SQL/XSS). Ces vulnérabilités sont souvent documentées publiquement et intégrées dans des outils d’exploitation automatisés, augmentant le risque d’exploitation.",
   "Recommendations": "Mettre à jour les technologies identifiées vers des versions supportées et sécurisées. Mettre en place un processus de veille technologique et de mise à jour régulière des composants. Prioriser les composants exposés directement sur Internet ou traitant des données sensibles."
+},
+    {
+  "Ref": "V - 06",
+  "IdentifiedIssue": "Indexation du répertoire 'uploads' activée",
+  "Impact": "C",
+  "Criticality": "Medium",
+  "Exploitability": "Technique",
+  "Perimetre": [],
+  "Description": "Le répertoire 'wp-content/uploads/' du site WordPress audité permet l’affichage de l’ensemble de son contenu via un navigateur, en raison de l’activation de l’indexation par défaut sur le serveur web. Cette configuration rend tous les fichiers présents dans ce dossier visibles et accessibles publiquement.",
+  "Risks": "Un attaquant peut consulter, télécharger ou analyser les fichiers stockés (images, documents, archives, fichiers de configuration, etc.), ce qui peut entraîner des fuites d’informations sensibles, une meilleure cartographie du site ou une exploitation de fichiers oubliés ou non destinés à être exposés.",
+  "Recommendations": "Désactiver l’indexation des répertoires sur le serveur web via le fichier .htaccess ou la configuration du serveur (Options -Indexes pour Apache, autoindex off pour NGINX). Ajouter un fichier index.html vide dans les répertoires critiques et limiter les permissions de lecture publique aux fichiers strictement nécessaires."
 }
+
   ]
   
