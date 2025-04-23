@@ -207,6 +207,17 @@
   "Description": "Une fonctionnalité du site semble permettre l’envoi de requêtes vers des URL externes ou internes depuis le serveur. Cette configuration peut être détournée pour exécuter des attaques SSRF, permettant à un attaquant d’accéder à des ressources internes ou non exposées publiquement.",
   "Risks": "Un attaquant peut utiliser cette vulnérabilité pour scanner le réseau interne, accéder à des services non exposés (ex : bases de données, API internes), contourner des règles de firewall, ou potentiellement exfiltrer des données sensibles.",
   "Recommendations": "Filtrer strictement les URL autorisées pour les requêtes sortantes côté serveur. Empêcher l’accès aux IP internes (127.0.0.1, 169.254.x.x, etc.). Utiliser une liste blanche, valider les entrées utilisateur, et surveiller les activités suspectes dans les logs."
+},
+    {
+  "Ref": "V - x",
+  "IdentifiedIssue": "Utilisation de technologies obsolètes",
+  "Impact": "CIA",
+  "Criticality": "High",
+  "Exploitability": "Technique",
+  "Perimetre": [],
+  "Description": "L’audit a révélé l’utilisation de versions obsolètes de certaines technologies côté serveur ou client (ex : WordPress, PHP, jQuery, Apache, etc.). Ces versions ne bénéficient plus de mises à jour de sécurité et peuvent contenir des vulnérabilités connues publiquement.",
+  "Risks": "Un attaquant peut exploiter des failles connues affectant ces versions (ex : exécution de code, élévation de privilèges, injection SQL/XSS). Ces vulnérabilités sont souvent documentées publiquement et intégrées dans des outils d’exploitation automatisés, augmentant le risque d’exploitation.",
+  "Recommendations": "Mettre à jour les technologies identifiées vers des versions supportées et sécurisées. Mettre en place un processus de veille technologique et de mise à jour régulière des composants. Prioriser les composants exposés directement sur Internet ou traitant des données sensibles."
 }
   ]
   
