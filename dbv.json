@@ -163,7 +163,50 @@
       "Description": "The CA SSL certificate chain that has been signed using a cryptographically weak hashing algorithm (SHA1). These signature algorithms are known to be vulnerable to collision attacks.",
       "Risks": "An attacker can exploit this to generate another certificate with the same digital signature, allowing an attacker to masquerade as the affected service.",
       "Recommendations": "Contact the Certificate Authority to have the certificate reissued with strong hashing algorithm."
-    }
-
+    },
+    {
+  "Ref": "V - x",
+  "IdentifiedIssue": "Accès non restreint à la page d'administration WordPress",
+  "Impact": "CIA",
+  "Criticality": "Medium",
+  "Exploitability": "Technique",
+  "Perimetre": [],
+  "Description": "La page /wp-admin/ est librement accessible sans restriction particulière depuis l’extérieur. Bien qu’un identifiant et un mot de passe soient requis pour se connecter, l’accessibilité de cette interface permet à un attaquant de tenter des attaques par force brute ou d’identifier des éléments liés à l’administration du site.",
+  "Risks": "Risque d’attaques par force brute ou d’exploitation de failles connues affectant la page de connexion (ex : redirections, erreurs d’authentification, plugins vulnérables). En cas de succès, un attaquant pourrait accéder à l’administration du site, modifier son contenu ou injecter du code malveillant.",
+  "Recommendations": "Limiter l’accès à la page /wp-admin/ via une restriction par adresse IP, une authentification supplémentaire (type HTTP Basic), ou l’utilisation d’un plugin de protection. Mettre en place un mécanisme de limitation de tentatives de connexion et surveiller les journaux d’accès."
+},
+    {
+  "Ref": "V - x",
+  "IdentifiedIssue": "Activation de la fonctionnalité XML-RPC",
+  "Impact": "CIA",
+  "Criticality": "Medium",
+  "Exploitability": "Technique",
+  "Perimetre": [],
+  "Description": "Le site WordPress audité permet l'accès au fichier /xmlrpc.php, exposant une interface permettant d'interagir à distance avec WordPress via des appels API. Cette fonctionnalité est fréquemment ciblée dans des attaques par force brute ou par amplification.",
+  "Risks": "Un attaquant peut utiliser l’interface XML-RPC pour tenter des attaques par force brute (via la méthode system.multicall), contourner certains mécanismes de protection ou effectuer des attaques DDoS par rebond. Cela peut conduire à une compromission de comptes ou à un déni de service.",
+  "Recommendations": "Désactiver XML-RPC si elle n’est pas utilisée, en modifiant le fichier .htaccess ou via des plugins comme 'Disable XML-RPC'. Si nécessaire, restreindre les méthodes autorisées et surveiller les accès via les journaux serveur."
+},
+    {
+  "Ref": "V - x",
+  "IdentifiedIssue": "Directory listing actif sur le dossier 'uploads'",
+  "Impact": "C",
+  "Criticality": "Medium",
+  "Exploitability": "Technique",
+  "Perimetre": [],
+  "Description": "Le répertoire wp-content/uploads/ permet l'affichage de l'ensemble de son contenu via l’index du serveur web. Cette configuration expose la liste des fichiers stockés (images, documents, backups, etc.), pouvant contenir des informations sensibles.",
+  "Risks": "Un attaquant peut naviguer dans le répertoire, consulter et télécharger des fichiers internes, analyser les métadonnées ou détecter des fichiers oubliés ou confidentiels (ex : backups, documents internes). Cela peut entraîner une fuite d’informations sensibles.",
+  "Recommendations": "Désactiver le directory listing en configurant le serveur web (via .htaccess ou nginx.conf). Ajouter un fichier index.html vide ou restreindre l'accès par permissions. Effectuer une revue des fichiers exposés dans ce répertoire."
+},
+    {
+  "Ref": "V - x",
+  "IdentifiedIssue": "Possibilité d’exploitation d’une vulnérabilité de type SSRF",
+  "Impact": "CIA",
+  "Criticality": "High",
+  "Exploitability": "Technique",
+  "Perimetre": [],
+  "Description": "Une fonctionnalité du site semble permettre l’envoi de requêtes vers des URL externes ou internes depuis le serveur. Cette configuration peut être détournée pour exécuter des attaques SSRF, permettant à un attaquant d’accéder à des ressources internes ou non exposées publiquement.",
+  "Risks": "Un attaquant peut utiliser cette vulnérabilité pour scanner le réseau interne, accéder à des services non exposés (ex : bases de données, API internes), contourner des règles de firewall, ou potentiellement exfiltrer des données sensibles.",
+  "Recommendations": "Filtrer strictement les URL autorisées pour les requêtes sortantes côté serveur. Empêcher l’accès aux IP internes (127.0.0.1, 169.254.x.x, etc.). Utiliser une liste blanche, valider les entrées utilisateur, et surveiller les activités suspectes dans les logs."
+}
   ]
   
