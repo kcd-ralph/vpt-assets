@@ -34,7 +34,7 @@ Office.onReady(() => {
 
 async function loadVulnerabilities() {
   try {
-    const response = await fetch("https://github.com/kcd-ralph/vpt-assets/dbv.json");
+    const response = await fetch("dbv.json");
     vulnerabilities = await response.json();
 
     const select = document.getElementById("vuln-select");
