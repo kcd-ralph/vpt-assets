@@ -34,21 +34,37 @@ Office.onReady(() => {
 
 async function loadVulnerabilities() {
   try {
-    const response = await fetch("dbv.json");
-    vulnerabilities = await response.json();
+    const response = await fetch("https://kcd-ralph.github.io/vpt-assets/dbv.json");
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid data format: expected an array.");
+    }
+
+    vulnerabilities = data;
 
     const select = document.getElementById("vuln-select");
+    select.innerHTML = '<option value="">Select a vulnerability</option>';
+
     vulnerabilities.forEach((vuln, index) => {
       const option = document.createElement("option");
       option.value = index;
-      option.textContent = vuln.IdentifiedIssue;
+      option.textContent = vuln.IdentifiedIssue || `Unnamed Issue ${index + 1}`;
       select.appendChild(option);
     });
+
+    setStatus("✅ Vulnerability database loaded.");
   } catch (err) {
     console.error("Failed to load dbv.json:", err);
-    setStatus("Could not load vulnerability database.");
+    setStatus("⚠️ Could not load vulnerability database:", err);
   }
 }
+
 
 async function insertVulnTable(vuln, perimeter) {
   await Word.run(async (context) => {
