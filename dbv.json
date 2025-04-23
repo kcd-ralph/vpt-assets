@@ -152,6 +152,17 @@
       "Description": "The CA SSL certificate chain that has been signed using a cryptographically weak hashing algorithm (SHA1). These signature algorithms are known to be vulnerable to collision attacks.",
       "Risks": "An attacker can exploit this to generate another certificate with the same digital signature, allowing an attacker to masquerade as the affected service.",
       "Recommendations": "Contact the Certificate Authority to have the certificate reissued with strong hashing algorithm."
+    },
+     {
+      "Ref": "V - x",
+      "IdentifiedIssue": "test2",
+      "Impact": "IC",
+      "Criticality": "Low",
+      "Exploitability": "Hacker",
+      "Perimetre": [],
+      "Description": "The CA SSL certificate chain that has been signed using a cryptographically weak hashing algorithm (SHA1). These signature algorithms are known to be vulnerable to collision attacks.",
+      "Risks": "An attacker can exploit this to generate another certificate with the same digital signature, allowing an attacker to masquerade as the affected service.",
+      "Recommendations": "Contact the Certificate Authority to have the certificate reissued with strong hashing algorithm."
     }
 
   ]
