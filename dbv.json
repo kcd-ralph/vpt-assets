@@ -240,6 +240,17 @@
   "Description": "Des pages par défaut générées automatiquement par le serveur, le CMS ou certaines bibliothèques sont accessibles publiquement. Ces pages peuvent divulguer des informations techniques telles que la version du serveur, le nom des modules actifs, la structure du système de fichiers ou d'autres éléments utiles à un attaquant.",
   "Risks": "La disponibilité de ces pages facilite la reconnaissance du système par un attaquant. En connaissant les composants et leurs versions, il peut identifier des vulnérabilités connues, affiner ses vecteurs d’attaque, ou encore collecter des données sensibles facilitant l’ingénierie sociale ou des intrusions ciblées.",
   "Recommendations": "Supprimer ou restreindre l’accès à toutes les pages par défaut inutilisées ou générées automatiquement. Vérifier la configuration du serveur et des modules pour éviter toute exposition non souhaitée. Mettre en place un durcissement de la configuration en environnement de production afin de limiter les fuites d’information."
+},
+    
+  "Ref": "V - x",
+  "IdentifiedIssue": "Exposition de services critiques (SSH, Telnet) accessibles depuis Internet",
+  "Impact": "C-I-A",
+  "Criticality": "High",
+  "Exploitability": "Technique",
+  "Perimetre": [],
+  "Description": "Des services d’administration à distance tels que SSH et/ou Telnet ont été identifiés comme étant accessibles directement depuis Internet. Cette configuration présente un risque important, surtout si des mécanismes de protection comme le filtrage IP, le changement de port, ou une authentification renforcée ne sont pas en place.",
+  "Risks": "Un attaquant peut tenter des attaques par force brute, exploiter des vulnérabilités connues ou utiliser des identifiants compromis pour accéder au système. Cela peut entraîner une compromission totale de l’hôte, un accès non autorisé aux données sensibles, voire une prise de contrôle complète de l’infrastructure.",
+  "Recommendations": "Limiter l’accès à ces services via un filtrage IP strict (pare-feu), désactiver les services non utilisés (ex. : Telnet), mettre en place une authentification forte (clé SSH, MFA), et surveiller les connexions entrantes. Il est recommandé d’utiliser un VPN pour accéder aux interfaces d’administration à distance."
 }
 
   ]
