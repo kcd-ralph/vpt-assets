@@ -220,7 +220,7 @@
   "Recommendations": "Mettre à jour les technologies identifiées vers des versions supportées et sécurisées. Mettre en place un processus de veille technologique et de mise à jour régulière des composants. Prioriser les composants exposés directement sur Internet ou traitant des données sensibles."
 },
     {
-  "Ref": "V - 06",
+  "Ref": "V - x",
   "IdentifiedIssue": "Indexation du répertoire 'uploads' activée",
   "Impact": "C",
   "Criticality": "Medium",
@@ -229,6 +229,17 @@
   "Description": "Le répertoire 'wp-content/uploads/' du site WordPress audité permet l’affichage de l’ensemble de son contenu via un navigateur, en raison de l’activation de l’indexation par défaut sur le serveur web. Cette configuration rend tous les fichiers présents dans ce dossier visibles et accessibles publiquement.",
   "Risks": "Un attaquant peut consulter, télécharger ou analyser les fichiers stockés (images, documents, archives, fichiers de configuration, etc.), ce qui peut entraîner des fuites d’informations sensibles, une meilleure cartographie du site ou une exploitation de fichiers oubliés ou non destinés à être exposés.",
   "Recommendations": "Désactiver l’indexation des répertoires sur le serveur web via le fichier .htaccess ou la configuration du serveur (Options -Indexes pour Apache, autoindex off pour NGINX). Ajouter un fichier index.html vide dans les répertoires critiques et limiter les permissions de lecture publique aux fichiers strictement nécessaires."
+},
+    {
+  "Ref": "V - x",
+  "IdentifiedIssue": "Pages par défaut exposant des informations sensibles",
+  "Impact": "C",
+  "Criticality": "Medium",
+  "Exploitability": "Technique",
+  "Perimetre": [],
+  "Description": "Des pages par défaut générées automatiquement par le serveur, le CMS ou certaines bibliothèques sont accessibles publiquement. Ces pages peuvent divulguer des informations techniques telles que la version du serveur, le nom des modules actifs, la structure du système de fichiers ou d'autres éléments utiles à un attaquant.",
+  "Risks": "La disponibilité de ces pages facilite la reconnaissance du système par un attaquant. En connaissant les composants et leurs versions, il peut identifier des vulnérabilités connues, affiner ses vecteurs d’attaque, ou encore collecter des données sensibles facilitant l’ingénierie sociale ou des intrusions ciblées.",
+  "Recommendations": "Supprimer ou restreindre l’accès à toutes les pages par défaut inutilisées ou générées automatiquement. Vérifier la configuration du serveur et des modules pour éviter toute exposition non souhaitée. Mettre en place un durcissement de la configuration en environnement de production afin de limiter les fuites d’information."
 }
 
   ]
