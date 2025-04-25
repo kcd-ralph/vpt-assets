@@ -241,7 +241,7 @@
   "Risks": "La disponibilité de ces pages facilite la reconnaissance du système par un attaquant. En connaissant les composants et leurs versions, il peut identifier des vulnérabilités connues, affiner ses vecteurs d’attaque, ou encore collecter des données sensibles facilitant l’ingénierie sociale ou des intrusions ciblées.",
   "Recommendations": "Supprimer ou restreindre l’accès à toutes les pages par défaut inutilisées ou générées automatiquement. Vérifier la configuration du serveur et des modules pour éviter toute exposition non souhaitée. Mettre en place un durcissement de la configuration en environnement de production afin de limiter les fuites d’information."
 },
-    
+ {   
   "Ref": "V - x",
   "IdentifiedIssue": "Exposition de services critiques (SSH, Telnet) accessibles depuis Internet",
   "Impact": "C-I-A",
