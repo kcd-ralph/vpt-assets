@@ -4,8 +4,11 @@ let refCounter = 1;
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
-    document.getElementById("insert-table").onclick = insertSelectedTables;
-    document.getElementById("load-json").onclick = loadJson;
+    // Wait for the DOM to load
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("insert-table").onclick = insertSelectedTables;
+      document.getElementById("load-json").onclick = loadJson;
+    });
   }
 });
 
