@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 
 let vulnerabilities = [];
-let refCounter = 1;
 
 Office.onReady(() => {
   loadVulnerabilities();
@@ -34,45 +33,41 @@ Office.onReady(() => {
 
 async function loadVulnerabilities() {
   try {
-    const response = await fetch("https://kcd-ralph.github.io/vpt-assets/dbv.json");
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    if (!Array.isArray(data)) {
-      throw new Error("Invalid data format: expected an array.");
-    }
-
-    vulnerabilities = data;
+    const response = await fetch("dbv.json");
+    vulnerabilities = await response.json();
 
     const select = document.getElementById("vuln-select");
-    select.innerHTML = '<option value="">Select a vulnerability</option>';
-
     vulnerabilities.forEach((vuln, index) => {
       const option = document.createElement("option");
       option.value = index;
-      option.textContent = vuln.IdentifiedIssue || `Unnamed Issue ${index + 1}`;
+      option.textContent = vuln.IdentifiedIssue;
       select.appendChild(option);
     });
-
-    setStatus("✅ Vulnerability database loaded.");
   } catch (err) {
     console.error("Failed to load dbv.json:", err);
-    setStatus("⚠️ Could not load vulnerability database:", err);
+    setStatus("Could not load vulnerability database.");
   }
 }
-
 
 async function insertVulnTable(vuln, perimeter) {
   await Word.run(async (context) => {
     const body = context.document.body;
-    const safe = (val) => (val ? String(val) : "—");
-    const ref = `V - ${refCounter++}`;
+    body.load("text");
 
-    const table = body.insertTable(6, 5, Word.RangeLocation.start, [
+    const range = context.document.getSelection();
+    range.load("text");
+
+    await context.sync();
+
+    // Find highest existing "V - n" in the document
+    const allMatches = body.text.match(/V\s*-\s*\d+/g) || [];
+    const numbers = allMatches.map(match => parseInt(match.match(/\d+/)[0]));
+    const nextRefNumber = numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
+    const ref = `V - ${nextRefNumber}`;
+
+    const safe = (val) => (val ? String(val) : "—");
+
+    const table = range.insertTable(6, 5, Word.InsertLocation.start, [
       ["Ref.", "Identified issue", "Impact", "Criticality", "Exploitability"],
       [
         ref,
@@ -104,18 +99,14 @@ async function insertVulnTable(vuln, perimeter) {
     styleHeaderRow(headerRow);
 
     for (let i = 1; i < rows.items.length; i++) {
-      rows.items[1].font.bold = true
-      rows.items[1].setCellPadding(Word.CellPaddingLocation.top, 5)
-      rows.items[1].setCellPadding(Word.CellPaddingLocation.bottom, 5)
+      rows.items[1].font.bold = true;
+      rows.items[1].setCellPadding(Word.CellPaddingLocation.top, 5);
+      rows.items[1].setCellPadding(Word.CellPaddingLocation.bottom, 5);
 
-      rows.items[2].setCellPadding(Word.CellPaddingLocation.top, 15)
-      rows.items[2].setCellPadding(Word.CellPaddingLocation.bottom, 15)
-      rows.items[3].setCellPadding(Word.CellPaddingLocation.top, 15)
-      rows.items[3].setCellPadding(Word.CellPaddingLocation.bottom, 15)
-      rows.items[4].setCellPadding(Word.CellPaddingLocation.top, 15)
-      rows.items[4].setCellPadding(Word.CellPaddingLocation.bottom, 15)
-      rows.items[5].setCellPadding(Word.CellPaddingLocation.top, 15)
-      rows.items[5].setCellPadding(Word.CellPaddingLocation.bottom, 15)
+      for (let r = 2; r <= 5; r++) {
+        rows.items[r].setCellPadding(Word.CellPaddingLocation.top, 15);
+        rows.items[r].setCellPadding(Word.CellPaddingLocation.bottom, 15);
+      }
 
       const row = rows.items[i];
       row.font.name = "Cambria (Body)";
@@ -127,21 +118,14 @@ async function insertVulnTable(vuln, perimeter) {
 
       const cells = row.cells.items;
 
-      // Bold only the first column (column 0) in rows 2–5
+      // Shade the first column in rows 2–5
       if (i >= 2 && i <= 5 && cells[0]) {
-        // cells[0].font.bold = true;
         cells[0].shadingColor = "#003366";
       }
 
-      // Make column 1 not bold in rows 2–5
-      // if (i >= 2 && i <= 5 && cells[1]) {
-        // cells[1].font.bold = false;
-      // }
-
-      // Alignment setup
+      // Align cells
       cells.forEach((cell, j) => {
         if (i === 1) {
-          // Row 1: main vuln data
           if (j === 0) cell.horizontalAlignment = Word.Alignment.centered;
           else if (j === 1) cell.horizontalAlignment = Word.Alignment.left;
           else cell.horizontalAlignment = Word.Alignment.centered;
@@ -151,7 +135,7 @@ async function insertVulnTable(vuln, perimeter) {
         }
       });
 
-      // Shading for Criticality & Exploitability
+      // Apply color codes to Criticality & Exploitability
       if (i === 1) {
         const crit = cells[3]?.value;
         const exp = cells[4]?.value;
