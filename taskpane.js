@@ -10,7 +10,7 @@ Office.onReady((info) => {
 });
 
 async function loadJson() {
-  const response = await fetch("dbv.json");
+  const response = await fetch("https://kcd-ralph.github.io/vpt-assets/dbv.json");
   const json = await response.json();
   vulnData = json.vulnerabilities || [];
   perimeterText = json.perimeter || "";
